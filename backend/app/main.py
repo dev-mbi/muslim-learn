@@ -2,7 +2,7 @@ from typing import Union
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from app.core.database import client
-
+from app.api import quran
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -19,8 +19,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+app.include_router(quran.router)
+
 
 @app.get("/health")
-
 def status_check():
     return {"status": "Healthy"}
